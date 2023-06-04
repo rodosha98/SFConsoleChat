@@ -1,4 +1,5 @@
 #include "Chat.h"
+#include "Exception.h"
 #include <iostream>
 
 void Chat::start()
@@ -45,13 +46,11 @@ void Chat::signUp()
         {
             if (user.getUserLogin() == login)
             {
-                std::cout << "User with such login already exists" << std::endl;
-                break;
+                throw UserLoginExp();
             }
             else if (user.getUserLogin() == "all")
             {
-                std::cout << "User with login <all> is restricted" << std::endl;
-                break;
+                throw UserAllExp();
             }
         }
         isloginfree = true;
@@ -137,10 +136,17 @@ void Chat::showStartMenu()
         switch(operation)
         {
         case '1':
-            signIn();
+                signIn();
             break;
         case '2':
-            signUp();
+            try
+            {
+                signUp();
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             break;
         case '0':
             isChatWork_ = false;
