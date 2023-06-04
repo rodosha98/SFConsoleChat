@@ -1,15 +1,19 @@
 #include<iostream>
+#include<memory>
 #include "Message.h"
 #include "User.h"
+#include "Chat.h"
 
 int main(void)
 {
-    Message msg1{"rodosha", "mike_deen", "Hello!"};
-    User user1{"rodosha", "Qwerty12345", "Oleg"};
+    Chat chat;
 
-    user1.showUserName();
-
-    user1.setUserPassword();
+    chat.start();
+    
+    while (chat.isChatWork())
+    {
+        chat.showStartMenu();
+    }
   
     return 0;
-
+}

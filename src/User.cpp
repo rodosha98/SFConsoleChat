@@ -1,9 +1,11 @@
 #include "User.h"
 #include<iostream>
 
+User::User(const std::string& login, const std::string& name) 
+    : login_(login), name_(name) { }
+
 User::User(const std::string& login, const std::string& password, const std::string& name) 
     : login_(login), password_(password), name_(name) { }
-
 
 const std::string& User::getUserLogin() const 
 {
@@ -17,13 +19,49 @@ const std::string& User::getUserPassword() const
 
 void User::setUserPassword()  
 {
+    std::string new_pass;
+    std::string confirm_pass;
+
+    //check if password corresponds to requirements
+    bool pass = false;
+    while (!pass)
+    {
+        showPasswordRules();
+        std::cout << "Enter new password" << std::endl;
+        std::cin >> new_pass;
+        pass = checkPassword(new_pass);
+    }
+
+    bool pass_confirm = false;
+    while (!pass_confirm)
+    {
+        std::cout << "Confirm password" << std::endl;
+        std::cin >> confirm_pass;
+        if (!new_pass.compare(confirm_pass))
+        {
+            pass_confirm = true;
+        }
+        else
+        {
+            std::cout << "Confirm password failed. Try again" << std::endl;
+        }
+    }
+
+    password_.clear();
+    password_.assign(new_pass);
+    std::cout << "Password set complete" << std::endl;
+
+}
+
+void User::changeUserPassword()  
+{
     std::string old_pass;
     std::string new_pass;
+
     std::cout << "Enter current password" << std::endl;
     for (int i = 0; i < 3; i++)
     {
         std::cin >> old_pass;
-
         if (!password_.compare(old_pass))
         {
             bool pass = false;
@@ -42,12 +80,12 @@ void User::setUserPassword()
         else
         {
             std::cout << "Sorry, try again. Attempts:" << 2 - i << std::endl;
-
         }
     }
-    
+
     std::cout << "Password change fails" << std::endl;
     return;
+    
 }
 
 void User::showPasswordRules() const
