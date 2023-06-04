@@ -5,6 +5,7 @@ class User
 {
 public:
     User() = default;
+    User(const std::string& login, const std::string& name);
     User(const std::string& login,  const std::string& password,  const std::string& name);
     ~User() = default;
 
@@ -12,6 +13,7 @@ public:
 
     const std::string& getUserPassword() const;
     void setUserPassword();
+    void changeUserPassword();
     void showPasswordRules() const;
     bool checkPassword(const std::string& password) const;
 
