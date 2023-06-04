@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class User 
 {
@@ -22,9 +23,19 @@ public:
 
     void showUserName() const;
 
+    std::vector<std::string> getFriends() const;
+    void addFriend(std::string& friend_login);
+    void deleteFriend(std::string& friend_login);
+    int getNFriends() const;
+    void showFriends();
+
+
 private: 
     const std::string login_;
     std::string password_;
     std::string name_;
+
+    std::vector<std::string> friends_;
+    int NFriends_ = 0;
 
 };

@@ -122,3 +122,54 @@ void User::showUserName() const
 {
     std::cout << this->name_ << std::endl;
 }
+
+std::vector<std::string> User::getFriends() const
+{
+    return friends_;
+}
+
+void User::addFriend(std::string& friend_login)
+{
+    friends_.push_back(friend_login);
+    NFriends_++;
+}
+
+void User::deleteFriend(std::string& friend_login)
+{
+    std::cout << *friends_.begin() << std::endl;
+    std::cout << *friends_.end() << std::endl;
+    for (auto it = friends_.begin(); it != friends_.end(); it++)
+    {
+        if (!friend_login.compare(*it))
+        {
+            if (it == friends_.end())
+            {
+                std::cout << "inside end " << std::endl;
+                friends_.pop_back();
+            }
+            else
+            {
+                std::cout << "case 2 " << std::endl;
+                it = friends_.erase(it);
+            }
+            NFriends_--;
+        }
+    }
+}
+
+int User::getNFriends() const
+{
+    return NFriends_;
+}
+
+void User::showFriends()
+{
+    int id = 1;
+
+    for (auto& user : friends_)
+    {
+        std::cout << id++ << ": " << user << std::endl;
+    }
+
+    std::cout << std::endl;
+}

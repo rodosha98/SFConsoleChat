@@ -12,6 +12,9 @@ public:
     void start();
     bool isChatWork() const;
     void showStartMenu();
+    void showUserMenu();
+    std::shared_ptr<User> getCurrentUser();
+    void registerUsers();
 
 
 private: 
@@ -23,4 +26,10 @@ private:
     std::shared_ptr<User> getUserByLogin(const std::string& login) const;
     void signUp();
     void signIn();
+    void showChat() const;
+    void writeMessage();
+    void addUserFriend();
+    void deleteUserFriend();
+    void showUserFriends() const;
+    void showNumberOfFriends() const;
 };
