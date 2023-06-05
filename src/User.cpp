@@ -136,22 +136,18 @@ void User::addFriend(std::string& friend_login)
 
 void User::deleteFriend(std::string& friend_login)
 {
-    std::cout << *friends_.begin() << std::endl;
-    std::cout << *friends_.end() << std::endl;
-    for (auto it = friends_.begin(); it != friends_.end(); it++)
+
+    if (!friend_login.compare(friends_.back()))
     {
+        friends_.pop_back();
+    }
+    for (auto it = friends_.begin(); it != friends_.end() - 1; it++)
+    {
+        // std::cout << "i: " << i << "*it: " << *it <<std::endl;
         if (!friend_login.compare(*it))
         {
-            if (it == friends_.end())
-            {
-                std::cout << "inside end " << std::endl;
-                friends_.pop_back();
-            }
-            else
-            {
-                std::cout << "case 2 " << std::endl;
-                it = friends_.erase(it);
-            }
+            
+            friends_.erase(it);
             NFriends_--;
         }
     }

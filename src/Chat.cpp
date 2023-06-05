@@ -109,7 +109,7 @@ void Chat::signIn()
         if (!is_correct)
         {
             std::cout << "Authorization failed" << std::endl;
-            currentUser_ == nullptr;
+            currentUser_ = nullptr;
             return;
         }
     }
@@ -274,6 +274,13 @@ void Chat::addUserFriend()
 
     std::cout << "Enter your new friend's login" << std::endl;
     std::cin >> friend_login;
+
+    
+    if (!friend_login.compare(currentUser_->getUserLogin()))
+    {
+        std::cout << "You can't add yourself as a friend" << std::endl;
+        return;
+    }
 
     //check if user is already a friend
     for (auto& user : currentUser_->getFriends())
