@@ -1,6 +1,7 @@
 #include "User.h"
 #include<iostream>
 
+//sign up constructor
 User::User(const std::string& login, const std::string& name) 
     : login_(login), name_(name) { }
 
@@ -17,6 +18,7 @@ const std::string& User::getUserPassword() const
     return this->password_;
 }
 
+//set user password when sign up new user
 void User::setUserPassword()  
 {
     std::string new_pass;
@@ -32,6 +34,7 @@ void User::setUserPassword()
         pass = checkPassword(new_pass);
     }
 
+    //confirm new pass(passwords must coincide)
     bool pass_confirm = false;
     while (!pass_confirm)
     {
@@ -53,11 +56,13 @@ void User::setUserPassword()
 
 }
 
+//change old password to new one
 void User::changeUserPassword()  
 {
     std::string old_pass;
     std::string new_pass;
 
+    //3 attempts to enter the pass correctly
     std::cout << "Enter current password" << std::endl;
     for (int i = 0; i < 3; i++)
     {
@@ -83,11 +88,12 @@ void User::changeUserPassword()
         }
     }
 
-    std::cout << "Password change fails" << std::endl;
+    std::cout << "Password change failed" << std::endl;
     return;
     
 }
 
+//show password  rules to user
 void User::showPasswordRules() const
 {
     std::cout << "Password must satisfy the following rules: " << std::endl
@@ -97,6 +103,7 @@ void User::showPasswordRules() const
      << "\t 4 - Must include an upper case character" << std::endl;
 }
 
+//check if password satisfies to the rules
 bool User::checkPassword(const std::string& password) const
 {
     const std::string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -123,11 +130,12 @@ void User::showUserName() const
     std::cout << this->name_ << std::endl;
 }
 
+//return vector of user friends(logins)
 std::vector<std::string> User::getFriends() const
 {
     return friends_;
 }
-
+//add new login to friend list
 void User::addFriend(std::string& friend_login)
 {
     friends_.push_back(friend_login);
@@ -136,14 +144,15 @@ void User::addFriend(std::string& friend_login)
 
 void User::deleteFriend(std::string& friend_login)
 {
-
+    //check the last element of vector
     if (!friend_login.compare(friends_.back()))
     {
         friends_.pop_back();
     }
+    //iterate over friends vector
     for (auto it = friends_.begin(); it != friends_.end() - 1; it++)
     {
-        // std::cout << "i: " << i << "*it: " << *it <<std::endl;
+        // compare function to check if coincides
         if (!friend_login.compare(*it))
         {
             
@@ -157,7 +166,7 @@ int User::getNFriends() const
 {
     return NFriends_;
 }
-
+//show list of user friends logins
 void User::showFriends()
 {
     int id = 1;

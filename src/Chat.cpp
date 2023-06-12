@@ -12,6 +12,7 @@ bool Chat::isChatWork() const
     return isChatWork_;
 }
 
+//search by login
 std::shared_ptr<User> Chat::getUserByLogin(
     const std::string& login ) const 
 {
@@ -53,16 +54,17 @@ void Chat::signUp()
         }
         isloginfree = true;
     }
-
+    //accept only non empty string
     do 
     {
         std::cout << "Enter your name" << std::endl;
         std::cin >> name;
     }   while(name.empty());
 
+    //create new user and set first password
     User user{login, name};
     user.setUserPassword();
-
+    //add user to user array
     users_.push_back(user);
     currentUser_ = std::make_shared<User>(user);
     
@@ -77,7 +79,7 @@ void Chat::signIn()
 
     std::cout << "Enter Login" << std::endl;
     std::cin >> login;
-
+    //check if user exists
     currentUser_ = getUserByLogin(login);
 
     if (currentUser_ == nullptr)
@@ -93,7 +95,7 @@ void Chat::signIn()
             std::cout << "Enter password" << std::endl;
             std::cin >> password;
             
-            //check if password is correct
+            //check if password is correct: 3 attempts
             if (password == currentUser_->getUserPassword())
             {
                 is_correct = true;
@@ -134,7 +136,7 @@ void Chat::showStartMenu()
         switch(operation)
         {
         case '1':
-                signIn();
+            signIn();
             break;
         case '2':
             try
@@ -163,7 +165,7 @@ void Chat::showUserMenu()
     while (currentUser_)
     {
         std::cout << "\033[36m" << std::endl;
-        std::cout << "Welcome to user menu!" << std::endl;
+        std::cout << "Welcome to user menu, " << currentUser_->getUserName() << "!" << std::endl;
         std::cout << "Choose operation" << std::endl;
         std::cout << "1 - Show all chat" << std::endl;
         std::cout << "2 - Write message" << std::endl;
@@ -208,6 +210,7 @@ void Chat::showUserMenu()
 
 }
 
+//show messages to all or user
 void Chat::showChat() const
 {
     std::string from;
@@ -241,7 +244,7 @@ void Chat::showChat() const
 
     std::cout << "--------------------" << std::endl;
 }
-
+//write message
 void Chat::writeMessage()
 {
     std::string to;
@@ -251,12 +254,14 @@ void Chat::writeMessage()
     std::cin >> to;
     std::cout << "Enter text: ";
     std::cin.ignore();
-    getline(std::cin, text);
+    getline(std::cin, text); //get line through spaces
 
+    //receiver - all
     if (to == "all")
     {
         messages_.push_back(Message{currentUser_->getUserLogin(), "all", text});
     }
+    //receiver is a certain user
     else if (!getUserByLogin(to))
     {
         std::cout << "Error sending message: Such user doesn't exist!" << std::endl;
@@ -267,7 +272,7 @@ void Chat::writeMessage()
     }
 
 }
-
+//add user friend
 void Chat::addUserFriend()
 {
     std::string friend_login;
@@ -275,7 +280,7 @@ void Chat::addUserFriend()
     std::cout << "Enter your new friend's login" << std::endl;
     std::cin >> friend_login;
 
-    
+    //check self-login add
     if (!friend_login.compare(currentUser_->getUserLogin()))
     {
         std::cout << "You can't add yourself as a friend" << std::endl;
@@ -306,6 +311,7 @@ void Chat::addUserFriend()
     std::cout << "Error: such user doesn't exist" << std::endl;
 }
 
+//delete user friend if user in the friend list
 void Chat::deleteUserFriend()
 {
     std::string friend_login;
@@ -336,7 +342,15 @@ void Chat::showUserFriends() const
 
  void Chat::showNumberOfFriends() const
  {
-    std::cout << "You have " << currentUser_->getNFriends() << " friends" << std::endl;
+    int n = currentUser_->getNFriends();
+    if (n!= 1)
+    {
+    std::cout << "You have " << n << " friends" << std::endl;
+    }
+    else
+    {
+    std::cout << "You have one friend" << std::endl;
+    }
  }
 
  std::shared_ptr<User> Chat::getCurrentUser()
@@ -344,15 +358,3 @@ void Chat::showUserFriends() const
     return currentUser_;
  }
 
- void Chat::registerUsers()
- {
-    User user1{"rodosha", "Qwerty1234", "Oleg"};
-    User user2{"mike_deen", "Qwerty1234", "Mike"};
-    User user3{"batman", "Qwerty1234", "Bruce"};
-    User user4{"superman", "Qwerty1234", "Clark"};
-
-    users_.push_back(user1);
-    users_.push_back(user2);
-    users_.push_back(user3);
-    users_.push_back(user4);
- }
